@@ -259,6 +259,17 @@ func TestGoldenPrompt_TestValueReview(t *testing.T) {
 	assertGolden(t, scrubDynamic(prompt), "test_value_review.golden")
 }
 
+func TestGoldenPrompt_TinHatReview(t *testing.T) {
+	r := newGoldenTestRepo(t)
+	sha := r.commitFile("hello.txt", "hello world\n", "add greeting")
+
+	b := NewBuilder(nil)
+	prompt, err := b.ForRepo(r.dir, 0).Build(sha, 0, "test", "tin-hat", "")
+	require.NoError(t, err)
+
+	assertGolden(t, scrubDynamic(prompt), "tin_hat_review.golden")
+}
+
 func TestGoldenPrompt_SingleReviewClaudeCode(t *testing.T) {
 	r := newGoldenTestRepo(t)
 	sha := r.commitFile("hello.txt", "hello world\n", "add greeting")
